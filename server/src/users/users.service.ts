@@ -12,15 +12,16 @@ export class UsersService {
   const {password , ...rest} = createUserDto
   const salt = await bcrypt.genSalt()
   const hashedPassword = await bcrypt.hash(password,salt)
-    return await this.prisma.user.create({
+    const user= await this.prisma.user.create({
       data : {
         password : hashedPassword,
         ...rest
       }
     })
+    return "done";
   }
 
-async   findAll() {
+async findAll() {
     return await this.prisma.user.findMany({
       include : {
         recipes : true
